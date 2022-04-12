@@ -26,7 +26,7 @@ class VehicleMapViewModel
         getVehiclesOnMap()
     }
 
-    fun getVehiclesOnMap(){
+    private fun getVehiclesOnMap(){
         viewModelScope.launch {
             vehicleRepository.getVehiclesOnLocation().let { response ->
                 if (response.isSuccessful)
@@ -38,6 +38,8 @@ class VehicleMapViewModel
 
         }
     }
+
+
 
 
 }

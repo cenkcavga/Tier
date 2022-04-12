@@ -1,5 +1,8 @@
 package com.example.tier.di
 
+import android.app.Application
+import android.content.Context
+import android.content.res.Resources
 import com.example.tier.Constant
 import com.example.tier.network.ApiService
 import dagger.Module
@@ -16,6 +19,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    @Singleton
+    @Provides
+    fun provideContext(app: Application): Context = app.applicationContext
+
+    @Singleton
+    @Provides
+    fun provideResources(app: Application): Resources = app.resources
 
 
     @Singleton

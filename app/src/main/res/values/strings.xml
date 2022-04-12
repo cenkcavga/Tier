@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Tier</string>
+    <string name="charge">charge</string>
+    <string name="helmet_available">helmet box available</string>
+    <string name="helmet_not_available">helmet box is not available</string>
+    <string name="map_key">AIzaSyBhiOHUs4EXmfcosT058ZRt6PGT0kcl_78</string>
 
 </resources>
