@@ -8,16 +8,21 @@ import com.google.android.gms.maps.model.Marker
 import pub.devrel.easypermissions.EasyPermissions
 import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
 import android.location.LocationManager
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.IntentSenderRequest
+import androidx.core.app.ActivityCompat
 import com.example.tier.Constant.REQUEST_CODE_LOCATION_PERMISSION
 import com.example.tier.base.TierClusterRenderer
 import com.example.tier.model.VehicleClusterItem
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import pub.devrel.easypermissions.AppSettingsDialog
 
@@ -31,7 +36,8 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
     lateinit var locationManager: LocationManager
     lateinit var locationRequest: LocationRequest
     lateinit var locationCallback: LocationCallback
-     lateinit var clusterManager: ClusterManager<VehicleClusterItem>
+    lateinit var clusterManager: ClusterManager<VehicleClusterItem>
+    private var locationMarker: Marker? = null
 
     override fun onMapReady(googleMap: GoogleMap) {
             map = googleMap
@@ -39,6 +45,7 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
             map.setMinZoomPreference(Constant.MAP_MIN_ZOOM)
             map.setMaxZoomPreference(Constant.MAP_MAX_ZOOM)
             map.uiSettings.isZoomControlsEnabled = true
+            updateUserLocationView()
             setCluster()
 
     }
@@ -55,7 +62,7 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // Forward results to EasyPermissions
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
 
@@ -64,12 +71,14 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
         if(EasyPermissions.somePermissionPermanentlyDenied(this, permissions)) {
             AppSettingsDialog.Builder(this).build().show()
         } else {
-            requestLocationPermission()
+
+            //requestLocationPermission()
         }
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
-        //Do nothing
+     //User gave permission or enabled the gps. Update the location
+       updateUserLocationView()
     }
 
 
@@ -117,17 +126,7 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
 
                 }
             }
-
-
-
         }
-
-
-    }
-
-     fun isGpsEnabled() : Boolean {
-        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
     }
 
      private fun setCluster() {
@@ -148,4 +147,39 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
             Manifest.permission.ACCESS_COARSE_LOCATION
         )
 
+
+    fun updateView(location: Location) {
+        val latLng = LatLng(location.latitude, location.longitude)
+        val boundsBuilder = LatLngBounds.builder()
+        boundsBuilder.include(latLng)
+        if(locationMarker == null){
+            locationMarker = map.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .draggable(false))
+        } else
+            locationMarker?.let {
+            it.position = latLng
+        }
+        val bounds = boundsBuilder.build()
+        map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10))
+
+
+    }
+
+
+     fun updateUserLocationView(){
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ){
+            createLocationRequest()
+            fuseLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null)
+        }
+
+    }
 }

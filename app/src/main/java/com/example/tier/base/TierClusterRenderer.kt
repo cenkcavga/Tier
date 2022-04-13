@@ -8,6 +8,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 
+
+// Custom cluster to make group of close vehicles
 class TierClusterRenderer(
     context: Context?, map: GoogleMap?,
     clusterManager: ClusterManager<VehicleClusterItem>
