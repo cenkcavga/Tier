@@ -15,18 +15,22 @@ class VehicleRepository @Inject constructor (
 
     suspend fun getVehiclesOnLocation(): Response<VehicleResponse> {
         val response = apiService.getVehiclesOnLocation()
-        val vehicles =  response.body()?.data?.let { createDialogTitles(it) }
-
-        return  response.apply {
-            this.body()?.data = vehicles!!
+        response.body().let {
+            return if(it?.data.isNullOrEmpty())
+                response
+            else {
+                val vehicles = createDialogTitles(it!!.data )
+                response.body()?.data = vehicles
+                response
+            }
         }
     }
 
     private fun createDialogTitles(vehicles: List<Vehicle>): List<Vehicle> {
-        for (vehicle in vehicles){
-            vehicle.dialogTitle = "${"%"}${vehicle.attributes.batteryLevel} " +
-               "${resources.getString(R.string.charge)} "+
-                 getHelmetStatus(vehicle.attributes.hasHelmetBox)
+            for (vehicle in vehicles) {
+                vehicle.dialogTitle = "${"%"}${vehicle.attributes.batteryLevel} " +
+                    "${resources.getString(R.string.charge)} " +
+                    getHelmetStatus(vehicle.attributes.hasHelmetBox)
         }
 
         return vehicles

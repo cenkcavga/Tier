@@ -7,9 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tier.model.Vehicle
 import com.example.tier.repository.VehicleRepository
+import com.google.android.gms.location.LocationRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.google.android.gms.location.LocationSettingsRequest
+
+
+
 
 @HiltViewModel
 class VehicleMapViewModel
@@ -35,11 +40,16 @@ class VehicleMapViewModel
                     Log.v("Vehicles On List", "$response.code response.message()")
 
             }
-
         }
     }
 
 
+ fun enableGpsBuilder(): LocationSettingsRequest.Builder {
+     val locationRequest: LocationRequest = LocationRequest.create()
+     locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+     return LocationSettingsRequest.Builder()
+         .addLocationRequest(locationRequest)
+ }
 
 
 }
