@@ -5,5 +5,9 @@
     <string name="helmet_not_available">helmet box is not available</string>
     <string name="map_key">AIzaSyBhiOHUs4EXmfcosT058ZRt6PGT0kcl_78</string>
     <string name="location_permission_title">Please give location permission to continue</string>
+    <string name="api_error">Opps! something went wrong</string>
+    <string name="try_again">Try again</string>
+    <string name="no">Close</string>
+    <string name="no_internet">Please check your connection!</string>
 
 </resources>

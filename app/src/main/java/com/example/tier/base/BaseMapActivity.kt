@@ -1,4 +1,4 @@
-package com.example.tier
+package com.example.tier.base
 
 import androidx.appcompat.app.AppCompatActivity
 
@@ -13,8 +13,9 @@ import android.location.Location
 import android.location.LocationManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.example.tier.Constant
 import com.example.tier.Constant.REQUEST_CODE_LOCATION_PERMISSION
-import com.example.tier.base.TierClusterRenderer
+import com.example.tier.R
 import com.example.tier.model.VehicleClusterItem
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -45,15 +46,17 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
             map.setMinZoomPreference(Constant.MAP_MIN_ZOOM)
             map.setMaxZoomPreference(Constant.MAP_MAX_ZOOM)
             map.uiSettings.isZoomControlsEnabled = true
-            updateUserLocationView()
+            makeLocationRequest()
             setCluster()
-
     }
 
+
+    // Shows marker info on click
     override fun onMarkerClick(marker:  Marker): Boolean {
         marker.showInfoWindow()
         return true
     }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -70,18 +73,16 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
     fun onPermissionsDenied(requestCode: Int, permissions: List<String>) {
         if(EasyPermissions.somePermissionPermanentlyDenied(this, permissions)) {
             AppSettingsDialog.Builder(this).build().show()
-        } else {
-
-            //requestLocationPermission()
         }
     }
 
     override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
      //User gave permission or enabled the gps. Update the location
-       updateUserLocationView()
+        makeLocationRequest()
     }
 
 
+    //Checks if need app needs user permission request for location only once
     fun requestLocationPermission(){
             if(requireRelatedPermissions(this)) {
                 return
@@ -95,6 +96,7 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
                 )
     }
 
+    // requests each time when app needs GPS
     fun createLocationRequest() {
          locationRequest = LocationRequest.create().apply {
              interval = Constant.LOCATION_REQUEST_INTERVAL
@@ -129,6 +131,8 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
         }
     }
 
+
+    // Groups markers with clusters on the map
      private fun setCluster() {
         clusterManager = ClusterManager(applicationContext, map)
         map.setOnCameraIdleListener(clusterManager)
@@ -140,6 +144,7 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
         )
     }
 
+    // Checks if app has user location permission
     private fun requireRelatedPermissions(context: Context) =
         EasyPermissions.hasPermissions(
             context,
@@ -148,27 +153,34 @@ abstract class BaseMapActivity : AppCompatActivity(), OnMapReadyCallback,
         )
 
 
+
+    // Sets marker for user's location at first call, then updates position on callback
     fun updateView(location: Location) {
         val latLng = LatLng(location.latitude, location.longitude)
         val boundsBuilder = LatLngBounds.builder()
         boundsBuilder.include(latLng)
+        val bounds = boundsBuilder.build()
         if(locationMarker == null){
             locationMarker = map.addMarker(
                 MarkerOptions()
                     .position(latLng)
                     .draggable(false))
+            map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10))
         } else
             locationMarker?.let {
             it.position = latLng
         }
-        val bounds = boundsBuilder.build()
-        map.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 10))
+
 
 
     }
 
 
-     fun updateUserLocationView(){
+    /*
+    Creates location request to assign and update user location maker
+     */
+
+     private fun makeLocationRequest(){
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION

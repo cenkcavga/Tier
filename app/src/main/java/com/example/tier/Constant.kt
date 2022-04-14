@@ -8,8 +8,12 @@ object Constant {
     const val REQUEST_CODE_LOCATION_PERMISSION = 0
     const val MAP_MAX_ZOOM = 16.0f
     const val MAP_MIN_ZOOM = 6.0f
-    const val LOCATION_REQUEST_INTERVAL: Long = 10000
-    const val LOCATION_REQUEST_FASTEST_INTERVAL : Long = 10000
+    const val LOCATION_REQUEST_INTERVAL: Long = 30000
+    const val LOCATION_REQUEST_FASTEST_INTERVAL : Long = 30000
     const val RESOLVABLE_API_EXCEPTION_CODE = 101
+    const val NOT_FOUND = 404
+    const val NO_INTERNET= -1
+    const val UNAUTHORIZED = 401
+
 
 }

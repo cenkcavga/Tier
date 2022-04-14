@@ -11,6 +11,6 @@
         android:layout_height="match_parent"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        tools:context=".MainActivity" />
+        tools:context=".MainActivity"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

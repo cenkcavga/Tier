@@ -12,26 +12,12 @@ import com.example.tier.viewmodel.VehicleMapViewModel
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import dagger.hilt.android.AndroidEntryPoint
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.tasks.Task
-
-import android.content.IntentSender
-import android.content.IntentSender.SendIntentException
-import android.os.Looper
-
-import com.google.android.gms.common.api.ResolvableApiException
-
-import com.google.android.gms.common.api.ApiException
-
-import androidx.annotation.NonNull
-import com.example.tier.base.TierClusterRenderer
 import com.example.tier.model.VehicleClusterItem
+import com.example.tier.network.NetworkResult
 import com.google.android.gms.location.*
-
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.maps.android.clustering.ClusterManager
-import java.lang.ClassCastException
-import kotlin.let as let
+import android.content.DialogInterface
+import androidx.appcompat.app.AlertDialog
+import com.example.tier.base.BaseMapActivity
 
 @AndroidEntryPoint
 class MainActivity : BaseMapActivity(){
@@ -54,15 +40,39 @@ class MainActivity : BaseMapActivity(){
                        updateView(it.lastLocation)
                    }
                }
-
             }
         }
         vehicleMapViewModel.liveData.observe(this){
-            vehicles = it
-            addVehiclesOnMap(vehicles)
+            when(it){
+                is NetworkResult.Success -> {
+                    vehicles = it.data!!.data
+                    addVehiclesOnMap(vehicles)
+                }
+
+                // Handling failure based on exceptions
+                is NetworkResult.Failure -> {
+                    when(it.statusCode){
+                        Constant.NO_INTERNET ->
+                            showDialog(resources.getString(R.string.no_internet))
+
+                            Constant.NOT_FOUND ->
+                                showDialog(resources.getString(R.string.api_error))
+
+                            Constant.UNAUTHORIZED ->
+                                showDialog(resources.getString(R.string.api_error))
+                   }
+                }
+            }
+
         }
     }
 
+
+
+    /*
+         Adding each of vehicles on right position on the map
+         as marker with cluster groups.
+     */
 
     private fun addVehiclesOnMap(vehicles: List<Vehicle>){
          for (vehicle in vehicles){
@@ -71,7 +81,7 @@ class MainActivity : BaseMapActivity(){
                  VehicleClusterItem(
                      markerOption = getMarkerOptions(
                          title = vehicle.dialogTitle,
-                         snippet= vehicle.attributes.vehicleType.toString(),
+                         snippet= vehicle.attributes.vehicleType,
                          position = position,
                          attributes = vehicle.attributes
                      ),
@@ -83,38 +93,56 @@ class MainActivity : BaseMapActivity(){
 
 
 
-    private fun getMarkerOptions(title:String?, position: LatLng, attributes: Attributes, snippet: String): MarkerOptions {
+    /*
+            Returns marker option model for each of vehicles
+     */
+
+    private fun getMarkerOptions(title:String?, position: LatLng, attributes: Attributes
+                                 , snippet: String): MarkerOptions {
+        val markerOptions = MarkerOptions()
+            .snippet(snippet)
+            .position(position)
+            .title(title)
+            .draggable(false)
+
         return when(attributes.vehicleType ) {
             VehicleType.E_SCOOTER.vehicleType ->
-                MarkerOptions()
-                    .snippet(snippet)
-                    .position(position)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.scooter))
-                    .title(title)
-                    .draggable(false)
+               markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.scooter))
+
             VehicleType.E_BIKE.vehicleType ->
-                MarkerOptions()
-                    .snippet(snippet)
-                    .position(position)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bike))
-                    .title(title)
-                    .draggable(false)
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike))
+
             VehicleType.E_MOPED.vehicleType ->
-                MarkerOptions()
-                    .snippet(snippet)
-                    .position(position)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.moped))
-                    .title(title)
-                    .draggable(false)
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.moped))
 
             else ->
-                MarkerOptions()
-                    .snippet(snippet)
-                    .position(position)
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.questionmark))
-                    .title(title)
-                    .draggable(false)
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.questionmark))
         }
+    }
+
+
+
+    private fun showDialog(message: String) {
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+                        dialog.dismiss()
+                        vehicleMapViewModel.getVehiclesOnMap()
+                    }
+
+                    DialogInterface.BUTTON_NEGATIVE -> {
+                        dialog.dismiss()
+                        finish()
+                    }
+                }
+            }
+          val builder =AlertDialog.Builder(this)
+          builder.setMessage(message)
+            .setPositiveButton(resources.getString(R.string.try_again), dialogClickListener)
+            .setNegativeButton(resources.getString(R.string.no), dialogClickListener)
+            .show()
+
     }
 
 
