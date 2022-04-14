@@ -1,5 +1,5 @@
 package com.example.tier.model
 
 data class VehicleResponse(
-    var data: List<Vehicle>
+    var data: MutableList<Vehicle>
 )

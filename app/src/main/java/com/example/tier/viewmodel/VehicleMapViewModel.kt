@@ -27,12 +27,12 @@ class VehicleMapViewModel
         getVehiclesOnMap()
     }
 
-     fun getVehiclesOnMap(){
-        viewModelScope.launch {
-            vehicleRepository.getVehiclesOnLocation().let {
-             mutableLiveData.value = it
+    fun getVehiclesOnMap() = viewModelScope.launch {
+            vehicleRepository.getVehiclesOnLocation().let { response ->
+                mutableLiveData.value = response
             }
-        }
+
+
     }
 
 

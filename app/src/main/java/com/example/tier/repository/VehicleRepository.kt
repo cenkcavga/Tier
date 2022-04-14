@@ -2,6 +2,7 @@ package com.example.tier.repository
 
 import android.content.res.Resources
 import com.example.tier.R
+import com.example.tier.base.VehicleRepositoryContract
 import com.example.tier.model.Vehicle
 import com.example.tier.model.VehicleResponse
 import com.example.tier.network.ApiService
@@ -11,12 +12,12 @@ import javax.inject.Named
 
 class VehicleRepository @Inject constructor (
     @Named("ApiService") private val apiService: ApiService,
-    private val resources: Resources) {
+    private val resources: Resources)  : VehicleRepositoryContract {
 
     /*
       Api call for list of vehicles
      */
-    suspend fun getVehiclesOnLocation(): NetworkResult<VehicleResponse> {
+    override suspend fun getVehiclesOnLocation(): NetworkResult<VehicleResponse> {
         val response = apiService.getVehiclesOnLocation()
         response.let {networkResult ->
             when(networkResult) {
@@ -40,9 +41,9 @@ class VehicleRepository @Inject constructor (
       Creating title string from attribute parameters for each of vehicles
      */
 
-    private fun createDialogTitles(vehicles: List<Vehicle>): List<Vehicle> {
+    private fun createDialogTitles(vehicles: MutableList<Vehicle>): MutableList<Vehicle> {
             for (vehicle in vehicles) {
-                vehicle.dialogTitle = "${"%"}${vehicle.attributes.batteryLevel} " +
+                vehicle.info = "${"%"}${vehicle.attributes.batteryLevel} " +
                     "${resources.getString(R.string.charge)} " +
                     getHelmetStatus(vehicle.attributes.hasHelmetBox)
         }

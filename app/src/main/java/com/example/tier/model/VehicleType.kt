@@ -1,7 +1,7 @@
 package com.example.tier.model
 
-enum class VehicleType(val vehicleType: String) {
-    E_SCOOTER("escooter"),
-    E_BIKE("ebicycle"),
-    E_MOPED("emoped")
+sealed class VehicleType(val vehicleType: String) {
+    object  SCOOTER: VehicleType("escooter")
+    object  BIKE:    VehicleType("ebicycle")
+    object  MOPED:   VehicleType("emoped")
 }

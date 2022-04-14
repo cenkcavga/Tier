@@ -5,5 +5,5 @@ data class Vehicle(
     val id: String,
     val type: String,
     val attributes: Attributes,
-    var dialogTitle: String?
+    var info: String?
 )

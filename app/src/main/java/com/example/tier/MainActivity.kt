@@ -80,7 +80,7 @@ class MainActivity : BaseMapActivity(){
              clusterManager.addItem(
                  VehicleClusterItem(
                      markerOption = getMarkerOptions(
-                         title = vehicle.dialogTitle,
+                         title = vehicle.info,
                          snippet= vehicle.attributes.vehicleType,
                          position = position,
                          attributes = vehicle.attributes
@@ -106,13 +106,13 @@ class MainActivity : BaseMapActivity(){
             .draggable(false)
 
         return when(attributes.vehicleType ) {
-            VehicleType.E_SCOOTER.vehicleType ->
+            VehicleType.SCOOTER.vehicleType ->
                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.scooter))
 
-            VehicleType.E_BIKE.vehicleType ->
+            VehicleType.BIKE.vehicleType ->
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bike))
 
-            VehicleType.E_MOPED.vehicleType ->
+            VehicleType.MOPED.vehicleType ->
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.moped))
 
             else ->
