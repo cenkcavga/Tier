@@ -15,6 +15,4 @@ object Constant {
     const val NOT_FOUND = 404
     const val NO_INTERNET= -1
     const val UNAUTHORIZED = 401
-
-
 }
