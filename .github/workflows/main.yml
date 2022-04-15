@@ -15,7 +15,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 18 
-      - run: ./gradlew build --no-daemon
       - name: Build with Gradle
         run: ./gradlew build
       - name: UpLoad Apk
