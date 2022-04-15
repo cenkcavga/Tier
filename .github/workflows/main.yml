@@ -17,7 +17,7 @@ jobs:
           java-version: 18
 
       - name: Unit Test
-        run: ./gradlew test
+        run: ./gradlew testDebugUnitTest
 
       - name: UpLoad Apk
         uses: actions/upload-artifact@v3.0.0
