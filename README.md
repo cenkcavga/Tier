@@ -45,7 +45,7 @@ Users can also see their own location  on the map to compare closest vehicle.
   <img src="docs/f.jpeg" width="32%"/>
 </p>
 
-<p align="center">
+<p align="left">
  <img src="docs/g.png" width="32%"/>
 </p>
 
@@ -60,10 +60,10 @@ Users can also see their own location  on the map to compare closest vehicle.
 - Repository Pattern
 
 ### CI/CD Process
-After commit and push, pipeline creates pull requests the process:
+After commit and push, pipeline creates pull requests and the process starts as below:
 
 - Unit Testing
-_ Building Gradle
+- Building Gradle
 - Uploading Apk to debug resource
 
 
