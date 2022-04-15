@@ -1,4 +1,4 @@
-name: Android CI
+name: TIER CI
 on:
   push:
     branches: [master]
@@ -13,13 +13,20 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v3.1.1
         with:
-          java-version: 1.8
+          distribution: 'temurin'
+          java-version: 18
+
+      - name: Android Test Report Action
+        uses: asadmansr/android-test-report-action@v1.2.0
+
       - name: Build with Gradle
-        run: ./gradlew build
+        uses: gradle/gradle-build-action@v2.1.5
+
       - name: UpLoad Apk
         uses: actions/upload-artifact@v3.0.0
-        with: app
-        path: app/build/outputs/apk/debug/app-debug.apk
+        with:
+          name: app
+          path: app/build/outputs/apk/debug/app-debug.apk
         
         
         
