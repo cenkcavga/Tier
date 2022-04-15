@@ -7,6 +7,7 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
+
 class TestVehicleRepository {
 
     private lateinit var  fakeRepository : FakeVehicleRepository
@@ -18,9 +19,8 @@ class TestVehicleRepository {
 
 
     @Test
-    fun apiResultReturnsNotNullObject(){
+    fun apiResultReturnsNotNullObject() {
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(true)
             val result = fakeRepository.getVehiclesOnLocation()
             assertThat(result).isNotNull()
         }
@@ -30,9 +30,9 @@ class TestVehicleRepository {
 
 
     @Test
-    fun successfulRequestDoesNotReturnsFailure(){
+    fun successfulRequestDoesNotReturnFailure() {
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(true)
+            fakeRepository.setShouldReturnSuccess(true)
             val result = fakeRepository.getVehiclesOnLocation()
             assertThat(result).isNotInstanceOf(NetworkResult.Failure::class.java)
         }
@@ -43,7 +43,7 @@ class TestVehicleRepository {
     @Test
     fun testReturnsSuccessfulResponse(){
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(true)
+            fakeRepository.setShouldReturnSuccess(true)
             val result = fakeRepository.getVehiclesOnLocation()
             assertThat(result).isInstanceOf(NetworkResult.Success::class.java)
         }
@@ -54,7 +54,7 @@ class TestVehicleRepository {
     @Test
     fun successfulResultReturnNonEmptyObject(){
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(true)
+            fakeRepository.setShouldReturnSuccess(true)
             val result = fakeRepository.getVehiclesOnLocation()
                 as NetworkResult.Success<VehicleResponse>
             assertThat(result.data).isNotNull()
@@ -66,7 +66,7 @@ class TestVehicleRepository {
     @Test
     fun successfulResultReturnsVehicleResponse(){
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(true)
+            fakeRepository.setShouldReturnSuccess(true)
             val result = fakeRepository.getVehiclesOnLocation()
                 as NetworkResult.Success<VehicleResponse>
             assertThat(result.data).isInstanceOf(VehicleResponse::class.java)
@@ -78,7 +78,7 @@ class TestVehicleRepository {
     @Test
     fun successfulResultReturnsNonEmptyVehicleResponseList(){
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(true)
+            fakeRepository.setShouldReturnSuccess(true)
             val result = fakeRepository.getVehiclesOnLocation()
                 as NetworkResult.Success<VehicleResponse>
             assertThat(result.data?.data).isNotEmpty()
@@ -88,9 +88,9 @@ class TestVehicleRepository {
 
 
     @Test
-    fun testSuccessfulIfVehicleObjectsInListHasNonEmptyInfoParameter(){
+    fun successfulIfVehicleObjectsInListHasNonEmptyInfoParameter(){
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(true)
+            fakeRepository.setShouldReturnSuccess(true)
             val result = fakeRepository.getVehiclesOnLocation()
                 as NetworkResult.Success<VehicleResponse>
             assertThat(result.data?.data?.get(0)?.info).isNotNull()
@@ -99,9 +99,9 @@ class TestVehicleRepository {
 
 
     @Test
-    fun failResultReturnsNonEmptyNetworkResult() {
+    fun failStateReturnsNotNullNetworkResult() {
         runBlocking {
-            fakeRepository.setShouldReturnNetworkError(false)
+            fakeRepository.setShouldReturnSuccess(false)
             val result = fakeRepository.getVehiclesOnLocation()
                 as NetworkResult.Failure<VehicleResponse>
             assertThat(result).isNotNull()
@@ -112,7 +112,7 @@ class TestVehicleRepository {
     @Test
     fun failResultReturnsException(){
             runBlocking {
-                fakeRepository.setShouldReturnNetworkError(false)
+                fakeRepository.setShouldReturnSuccess(false)
                 val result = fakeRepository.getVehiclesOnLocation()
                     as NetworkResult.Failure<VehicleResponse>
                 assertThat(result.exception).isInstanceOf(Exception::class.java)

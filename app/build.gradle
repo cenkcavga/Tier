@@ -87,4 +87,15 @@ dependencies {
     //Google Truth Assert operations
     testImplementation "com.google.truth:truth:1.1.3"
 
+    // Android Arch test rules
+    implementation "androidx.arch.core:core-testing:2.1.0"
+
+
+    // Coroutine test scopes
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+
+
+    //Arch Rules
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+
 }

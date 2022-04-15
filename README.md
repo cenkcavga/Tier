@@ -66,6 +66,10 @@ After commit and push, pipeline creates pull requests and the process starts as 
 - Building Gradle
 - Uploading Apk to debug resource
 
+  For more than that (Jenkins Integration):
+- Jenkins server can be installed
+- Signed release APK may automatically send to Market to specific account
+
 
 
 ### Libraries

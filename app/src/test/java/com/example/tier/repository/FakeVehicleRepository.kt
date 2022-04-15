@@ -1,7 +1,6 @@
 package com.example.tier.repository
 
 import android.content.res.Resources
-import com.example.tier.R
 import com.example.tier.base.VehicleRepositoryContract
 import com.example.tier.model.Attributes
 import com.example.tier.model.Vehicle
@@ -12,19 +11,18 @@ class FakeVehicleRepository :VehicleRepositoryContract{
 
     private var isNetworkResultSuccess = false
 
-    fun setShouldReturnNetworkError(value: Boolean) {
+    fun setShouldReturnSuccess(value: Boolean) {
         isNetworkResultSuccess = value
     }
 
     override
     suspend fun getVehiclesOnLocation(): NetworkResult<VehicleResponse> {
-        var result: NetworkResult<VehicleResponse>
-        if(isNetworkResultSuccess)
-           result = getFakeSuccessResponse()
+       return if(isNetworkResultSuccess)
+           getFakeSuccessResponse()
         else
-            result = getFakeFailExceptionResponse()
+           getFakeFailExceptionResponse()
 
-        return result
+
     }
 
 
