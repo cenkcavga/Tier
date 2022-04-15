@@ -21,7 +21,6 @@ import com.example.tier.base.BaseMapActivity
 
 @AndroidEntryPoint
 class MainActivity : BaseMapActivity(){
-
     private  val vehicleMapViewModel: VehicleMapViewModel by viewModels()
     private lateinit var viewBinding: ActivityMainBinding
     private lateinit var vehicles: List<Vehicle>
