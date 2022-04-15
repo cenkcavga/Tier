@@ -13,6 +13,7 @@ jobs:
       - name: Setup Java JDK
         uses: actions/setup-java@v3.1.1
         with:
+          distribution: 'temurin'
           java-version: 13 
       - run: ./gradlew build --no-daemon
       - name: Build with Gradle
