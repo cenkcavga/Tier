@@ -16,8 +16,8 @@ jobs:
           distribution: 'temurin'
           java-version: 18
 
-      - name: Test with Gradle
-        run: ./gradlew test
+      - name: Android Test Report Action
+        uses: asadmansr/android-test-report-action@v1.2.0
 
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.1.5
