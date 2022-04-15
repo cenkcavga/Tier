@@ -27,6 +27,7 @@ class MainActivity : BaseMapActivity(){
     private lateinit var vehicles: List<Vehicle>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
         viewBinding.map.getFragment<SupportMapFragment>().getMapAsync(this)
