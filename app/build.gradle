@@ -83,4 +83,8 @@ dependencies {
 
     // Cluster
     implementation "com.google.maps.android:android-maps-utils:0.5"
+
+    //Google Truth Assert operations
+    testImplementation "com.google.truth:truth:1.1.3"
+
 }

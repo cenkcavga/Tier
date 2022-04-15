@@ -14,7 +14,11 @@ jobs:
         uses: actions/setup-java@v3.1.1
         with:
           distribution: 'temurin'
-          java-version: 18 
+          java-version: 18
+
+      - name: Unit Test
+        run: ./gradlew testDebugUnitTest
+
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.1.5
       - name: UpLoad Apk

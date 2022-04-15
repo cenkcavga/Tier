@@ -67,8 +67,11 @@ Users can also see their own location  on the map to compare closest vehicle.
     - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Store UI related data
 
 - [Retrofit Client](https://square.github.io/retrofit/) - Execute network service calls
-- [Easy Permission Handler](https://github.com/googlesamples/easypermissions) - For Permission handling
+- [Easy Permission Handler](https://github.com/googlesamples/easypermissions) - For permission handling
+- ViewBinding - For accessing and operating view components
 - JUnit4
+- Google Truth - For assertion
+
 
 ### Services
 
