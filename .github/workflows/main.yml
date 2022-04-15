@@ -11,10 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.0.1
       - name: Setup Java JDK
-        with:
-          distribution: 'temurin'
-          java-version: '11'
-          cache: 'gradle'
+        uses: renatoathaydes/setup-java-sdkman@2.1.1
       - run: ./gradlew build --no-daemon
       - name: Build with Gradle
         run: ./gradlew build
