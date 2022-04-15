@@ -13,7 +13,7 @@ jobs:
       - name: Setup Java JDK
         uses: renatoathaydes/setup-java-sdkman@2.1.1
         with:
-          java-version: '17' 
+          java-version: '13' 
       - run: ./gradlew build --no-daemon
       - name: Build with Gradle
         run: ./gradlew build
