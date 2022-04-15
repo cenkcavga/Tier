@@ -6,7 +6,7 @@ A demonstration modern Android development project with ViewModel, Navigation, H
 
 ## ℹ Introduction
 
-Tier is an android based mobile application that  shows companies available vehicles (scooter, bicycle, moped) 
+Tier is an android based mobile application that  shows the company's available vehicles (scooter, bicycle, moped) 
 on the map with their availability such as location charge level, does contain helmet box and etc.
 
 Each type of vehicle has shown by different marker icon on the map. 
@@ -45,10 +45,6 @@ Users can also see their own location  on the map to compare closest vehicle.
   <img src="docs/f.jpeg" width="32%"/>
 </p>
 
-
-## 📲 Download
-
-Go to the [Releases](https://github.com/cenkcavga/Tier) to download the latest APK.
 
 ## 🏗 Tech Stack
 
