@@ -17,6 +17,4 @@ object Constant {
     const val UNAUTHORIZED = 401
 
 
-
-
 }
