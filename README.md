@@ -40,11 +40,15 @@ Users can also see their own location  on the map to compare closest vehicle.
 </p>
 
 <p align="center">
-  <img src="docs/d.jpeg" width="25%"/>
-  <img src="docs/e.jpeg" width="25%"/>
-  <img src="docs/f.jpeg" width="25%"/>
-  <img src="docs/g.png" width="25%"/>
+  <img src="docs/d.jpeg" width="32%"/>
+  <img src="docs/e.jpeg" width="32%"/>
+  <img src="docs/f.jpeg" width="32%"/>
 </p>
+
+<p align="center">
+ <img src="docs/g.png" width="32%"/>
+</p>
+
 
 
 ## 🏗 Tech Stack
