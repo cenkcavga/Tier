@@ -1,4 +1,4 @@
-name: Android CI
+name: TIER CI
 on:
   push:
     branches: [master]
@@ -15,6 +15,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: 18
+
+      - name: Test with Gradle
+        run: ./gradlew test
 
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2.1.5
