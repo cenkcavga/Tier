@@ -42,6 +42,7 @@ class MainActivity : BaseMapActivity(){
                }
             }
         }
+
         vehicleMapViewModel.liveData.observe(this){
             when(it){
                 is NetworkResult.Success -> {
