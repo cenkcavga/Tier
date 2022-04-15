@@ -11,12 +11,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.0.1
         with:
-          repository: ${{ github.repository }}
+            repository: ${{ github.repository }}
       - name: Setup Java JDK
         with:
           distribution: 'temurin'
           java-version: '11'
           cache: 'gradle'
+      - run: ./gradlew build --no-daemon
       - name: Build with Gradle
         run: ./gradlew build
       - name: UpLoad Apk
