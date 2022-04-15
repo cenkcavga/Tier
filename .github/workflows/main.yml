@@ -10,8 +10,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3.0.1
-        with:
-            repository: ${{ github.repository }}
       - name: Setup Java JDK
         with:
           distribution: 'temurin'
