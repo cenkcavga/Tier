@@ -1,6 +1,6 @@
 # TIER - Test Case
 
-![Latest Version](https://img.shields.io/badge/latestVersion-0.1.0-yellow) ![Kotlin](https://img.shields.io/badge/language-kotlin-blue) ![Minimum SDK Version](https://img.shields.io/badge/minSDK-21-orange) ![Android Gradle Version](https://img.shields.io/badge/androidGradleVersion-7.1.2-green) ![Gradle Version](https://img.shields.io/badge/gradleVersion-7.2.0-informational)
+![Latest Version](https://img.shields.io/badge/latestVersion-0.1.0-yellow) ![Kotlin](https://img.shields.io/badge/language-kotlin-blue) ![Minimum SDK Version](https://img.shields.io/badge/minSDK-21-orange) ![Android Gradle Version](https://img.shields.io/badge/androidGradleVersion-7.0.4-green) ![Gradle Version](https://img.shields.io/badge/gradleVersion-7.0.2-informational)
 
 A demonstration modern Android development project with ViewModel, Navigation, Hilt, Retrofit and based on MVVM by using Google Maps.
 
